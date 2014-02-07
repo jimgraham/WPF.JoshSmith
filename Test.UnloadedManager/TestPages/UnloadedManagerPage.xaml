@@ -1,0 +1,43 @@
+﻿<Page x:Class="Test.UnloadedManager.TestPages.UnloadedManagerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:jas="clr-namespace:WPF.JoshSmith.ServiceProviders.UI;assembly=WPF.JoshSmith" 
+    xmlns:local="clr-namespace:Test.UnloadedManager"
+    Title="UnloadedManagerPage"
+    >
+  <Page.Resources>
+    <DataTemplate DataType="{x:Type local:ImageInfo}">
+      <Image 
+        Source="{Binding Image}" 
+        jas:UnloadedManager.IsManaged="True" 
+        Width="100" Height="120" />
+    </DataTemplate>
+  </Page.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    
+    <DockPanel>
+      <TextBlock Text="ListBox of Images" DockPanel.Dock="Top" FontSize="13" />
+      <ListBox Name="listBoxImages" />
+    </DockPanel>
+
+    <DockPanel Grid.Column="1" >
+      <TextBlock Text="Resource Log" DockPanel.Dock="Top" FontSize="13" />
+      <ListBox Name="listBoxLog" />
+    </DockPanel>
+
+    <Button 
+      Name="btnClearLog"
+      Grid.Row="1" Grid.Column="1" 
+      HorizontalAlignment="Center" 
+      Margin="0,4"
+      VerticalAlignment="Center">Clear Log</Button>
+  </Grid>
+</Page>

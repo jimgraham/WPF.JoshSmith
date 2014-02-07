@@ -1,0 +1,28 @@
+﻿<Window x:Class="Test.CenteredContentControl.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pnl="clr-namespace:WPF.JoshSmith.Panels;assembly=WPF.JoshSmith"
+    xmlns:jas="clr-namespace:WPF.JoshSmith.Controls;assembly=WPF.JoshSmith"
+    Title="Test.CenteredContentControl" Height="400" Width="400"
+    WindowStartupLocation="CenterScreen"
+    >
+  <pnl:DragCanvas>
+    <Line 
+      pnl:DragCanvas.CanBeDragged="False"
+      Stroke="Red"
+      StrokeThickness="3"
+      X1="{Binding ElementName=host1, Path=CenterX}" 
+      Y1="{Binding ElementName=host1, Path=CenterY}" 
+      X2="{Binding ElementName=host2, Path=CenterX}"  
+      Y2="{Binding ElementName=host2, Path=CenterY}"      
+      />
+
+    <jas:CenteredContentControl x:Name="host1" Canvas.Left="100" Canvas.Top="100">
+      <Ellipse Fill="Green" Width="50" Height="50" />
+    </jas:CenteredContentControl>
+
+    <jas:CenteredContentControl x:Name="host2" Canvas.Left="200" Canvas.Top="200">
+      <Image Source="harpsichord.jpg" Width="150" Height="150" />
+    </jas:CenteredContentControl>
+  </pnl:DragCanvas>
+</Window>

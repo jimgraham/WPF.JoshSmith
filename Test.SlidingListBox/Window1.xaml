@@ -1,0 +1,86 @@
+﻿<Window x:Class="Test.SlidingListBox.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:jas="clr-namespace:WPF.JoshSmith.Controls;assembly=WPF.JoshSmith" 
+    Title="SlidingListBox Demo" 
+    Height="600" Width="600"
+    FontSize="12"
+    WindowStartupLocation="CenterScreen"
+    >
+  <Window.Resources>
+    <ResourceDictionary Source="Resources.xaml" />
+  </Window.Resources>
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="100" />
+      <RowDefinition />
+      <RowDefinition Height="70" />
+    </Grid.RowDefinitions>
+
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+
+    <!-- Items slide down -->
+    <jas:SlidingListBox 
+      x:Name="slidingListBoxDown" 
+      Grid.Row="0" Grid.ColumnSpan="2" 
+      ItemTemplate="{StaticResource ItemTemplateDown}"       
+      SelectionMode="Extended"
+      SlideDirection="Down"
+      SlideDistance="60"
+      SlideDuration="250"
+      VerticalContentAlignment="Top"
+      >
+      <jas:SlidingListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <StackPanel Orientation="Horizontal" IsItemsHost="True" />
+        </ItemsPanelTemplate>
+      </jas:SlidingListBox.ItemsPanel>
+    </jas:SlidingListBox>
+
+    <!-- Items slide right -->
+    <jas:SlidingListBox 
+      x:Name="slidingListBoxRight"  
+      Grid.Row="1" Grid.Column="0" 
+      ItemTemplate="{StaticResource ItemTemplateHorizontal}" 
+      SelectionMode="Extended"
+      HorizontalContentAlignment="Left" 
+      SlideDirection="Right"
+      SlideDistance="70"
+      SlideDuration="90"
+     />
+
+    <!-- Items slide left -->
+    <jas:SlidingListBox 
+      x:Name="slidingListBoxLeft"  
+      Grid.Row="1" Grid.Column="1" 
+      ItemTemplate="{StaticResource ItemTemplateHorizontal}" 
+      SelectionMode="Extended"
+      HorizontalContentAlignment="Right" 
+      SlideDirection="Left"
+      SlideDistance="50"
+      SlideDuration="200"
+     />
+
+    <!-- Items slide up -->
+    <jas:SlidingListBox 
+      x:Name="slidingListBoxUp" 
+      Grid.Row="2" Grid.ColumnSpan="2" 
+      ItemTemplate="{StaticResource ItemTemplateUp}"       
+      SelectionMode="Extended"
+      SlideDirection="Up"
+      SlideDistance="30"
+      SlideDuration="100"
+      VerticalContentAlignment="Bottom"
+      >
+      <jas:SlidingListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <VirtualizingStackPanel Orientation="Horizontal" IsItemsHost="True" />
+        </ItemsPanelTemplate>
+      </jas:SlidingListBox.ItemsPanel>
+    </jas:SlidingListBox>
+  </Grid>
+</Window>

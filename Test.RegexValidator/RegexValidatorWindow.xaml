@@ -1,0 +1,59 @@
+﻿<Window x:Class="Test.RegexValidator.RegexValidatorWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:jas="clr-namespace:WPF.JoshSmith.Controls.Validation;assembly=WPF.JoshSmith" 
+    xmlns:local="clr-namespace:Test.RegexValidator" 
+    Title="RegexValidator &amp; RegexValidationRule Test" Height="300" Width="375"
+    FontSize="12"
+    >
+  <Window.Resources>
+    <!-- This style allows a validation error message to be 
+         displayed in a TextBox's tooltip. -->
+    <Style TargetType="{x:Type TextBox}">
+      <Setter Property="Margin" Value="0,8" />
+      <Style.Triggers>
+        <Trigger Property="Validation.HasError" Value="True">
+          <Setter Property="ToolTip"
+            Value="{Binding 
+                    RelativeSource={RelativeSource Self}, 
+                    Path=(Validation.Errors)[0].ErrorContent
+                   }"/>
+        </Trigger>
+      </Style.Triggers>      
+    </Style>
+  </Window.Resources>
+  
+  <StackPanel Margin="4" VerticalAlignment="Center">
+    <TextBlock>E-mail Address:</TextBlock>
+    <TextBox 
+      Text="{Binding Path=EmailAddress, UpdateSourceTrigger=PropertyChanged}" 
+      jas:RegexValidator.RegexText="^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" 
+      jas:RegexValidator.ErrorMessage="Invalid e-mail address." 
+      />
+
+    <!-- Sets the RegexText attached property to a static property
+         which returns a localized regex, for the current date format. -->
+    <TextBlock>Localized Date:</TextBlock>
+    <TextBox 
+      Text="{Binding Path=DateString, UpdateSourceTrigger=PropertyChanged}" 
+      jas:RegexValidator.RegexText="{x:Static local:DateFormatRegex.DateRegex}" 
+      jas:RegexValidator.ErrorMessage="Invalid date format." 
+      />
+
+    <!-- Explicitly creates a RegexValidationRule in order to set the RegexOptions. -->
+    <TextBlock>Product Code:</TextBlock>
+    <TextBox>
+      <TextBox.Text>
+        <Binding Path="ProductCode" UpdateSourceTrigger="PropertyChanged">
+          <Binding.ValidationRules>
+            <jas:RegexValidationRule
+              RegexText="^[A-Z]{3}\.[0-9]{3}$"
+              ErrorMessage="Invalid product code.  (Examples: ABC.123  xyz.789)"
+              RegexOptions="IgnoreCase"
+              />
+              </Binding.ValidationRules>
+            </Binding>
+      </TextBox.Text>
+    </TextBox>    
+  </StackPanel>
+</Window>

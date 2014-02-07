@@ -1,0 +1,60 @@
+﻿<Window x:Class="Test.SmartTextBox.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:jas="clr-namespace:WPF.JoshSmith.Controls;assembly=WPF.JoshSmith" 
+    Title="SmartTextBox Demo" Height="500" Width="500"
+    FontSize="15"    
+    >
+  <Window.Resources>
+    <Style x:Key="SuggestionListBoxStyle" TargetType="ListBox">
+      <Setter Property="BitmapEffect">
+        <Setter.Value>
+          <DropShadowBitmapEffect ShadowDepth="1" Softness="0.5" />
+        </Setter.Value>
+      </Setter>
+      <Setter Property="BorderBrush" Value="Gray" />
+      <Setter Property="ItemContainerStyle">
+        <Setter.Value>
+          <Style TargetType="ListBoxItem">
+            <Setter Property="Border.BorderBrush" Value="LightGray" />
+            <Setter Property="Border.BorderThickness" Value="0,0,0,0.5" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="2,4" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+          </Style>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style TargetType="jas:SmartTextBox">
+      <Setter Property="AcceptsReturn" Value="True" />
+      <Setter Property="BorderBrush" Value="Gray" />
+      <Setter Property="Margin" Value="4" />
+      <Setter Property="SuggestionListBoxStyle" Value="{StaticResource SuggestionListBoxStyle}" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+  </Window.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.Background>
+      <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Color="#200000FF" Offset="0" />
+        <GradientStop Color="#080000FF" Offset="0.5" />
+        <GradientStop Color="#120000FF" Offset="1" />
+      </LinearGradientBrush>
+    </Grid.Background>
+    <TextBlock FontSize="16" FontWeight="SemiBold" Margin="2,4">Type your thoughts here:</TextBlock>
+    <jas:SmartTextBox 
+      x:Name="smartTextBox" 
+      Grid.Row="1" xml:space="preserve">Johann Sebastian Bach was born in Eisenach, Germany to an extraordinarily muscal family — for more than 200 years, the Bach family had produced dozens of worthy performers and compsers during a period in which the church, local government and the aristocracy provided significant support for profesional music making in the German-speaking world, particularly in the eastern electorates of Thuringia and Saxony. Bach's father, Johann Ambrosius Bach, was a talented violnist and trumpeter in Eisenach, a town of some 6,000 residents in Thuringia, and held a post involving the organisation of secular music and participation in church music. His uncles were all professional musicians, ranging from church organists and court chamber musicians to composers. Contemporary documents indicate tht, in some circles, the name Bach had come to be used as a synonim for "musician".</jas:SmartTextBox>
+    <DockPanel Grid.Row="2">
+      <TextBlock DockPanel.Dock="Left"  Margin="8,4">(Press F1 to view suggested spellings for a typo)</TextBlock>
+      <Button Name="btnFixNextTypo"  DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="8,4">Fix Next Typo</Button>
+    </DockPanel>
+  </Grid>
+</Window>

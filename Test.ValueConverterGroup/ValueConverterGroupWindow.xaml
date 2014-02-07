@@ -1,0 +1,68 @@
+﻿<Window x:Class="Test.ValueConverterGroup.ValueConverterGroupWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Test.ValueConverterGroup" 
+    xmlns:jas="clr-namespace:WPF.JoshSmith.Data.ValueConverters;assembly=WPF.JoshSmith" 
+    Title="ValueConverterGroup Test" Height="300" Width="300"
+    >
+    <Window.Resources>
+      <!-- Loads the Tasks XML data. -->
+      <XmlDataProvider x:Key="xmlData" Source="..\..\data.xml" XPath="Tasks/Task" />
+
+      <!-- Converts the Status attribute text to the display name for that processing state. -->
+      <jas:ValueConverterGroup x:Key="statusDisplayNameGroup">
+        <local:IntegerStringToProcessingStateConverter  />
+        <local:EnumToDisplayNameConverter />
+      </jas:ValueConverterGroup>
+
+      <!-- Converts the Status attribute text to a SolidColorBrush used to draw 
+         the output of statusDisplayNameGroup. -->
+      <jas:ValueConverterGroup x:Key="statusForegroundGroup">
+        <local:IntegerStringToProcessingStateConverter  />
+        <local:ProcessingStateToColorConverter />
+        <local:ColorToSolidColorBrushConverter />
+      </jas:ValueConverterGroup>
+
+      <!-- Converts the Status attribute to the tooltip message for that processing state. -->
+      <jas:ValueConverterGroup x:Key="statusDescriptionGroup">
+        <local:XmlAttributeToStringStateConverter />
+        <local:IntegerStringToProcessingStateConverter  />
+        <local:EnumToDescriptionConverter />
+      </jas:ValueConverterGroup>
+
+      <DataTemplate x:Key="taskItemTemplate">
+        <StackPanel 
+          Margin="2" 
+          Orientation="Horizontal" 
+          ToolTip="{Binding XPath=@Status, Converter={StaticResource statusDescriptionGroup}}"
+          >
+          <TextBlock Text="{Binding XPath=@Name}" />
+          <TextBlock Text="   (" xml:space="preserve" />
+          <TextBlock 
+            Text="{Binding XPath=@Status, Converter={StaticResource statusDisplayNameGroup}}" 
+            Foreground="{Binding XPath=@Status, Converter={StaticResource statusForegroundGroup}}" />
+          <TextBlock Text=")" />
+        </StackPanel>
+      </DataTemplate>
+    </Window.Resources>
+
+    <Grid >
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+
+      <TextBlock 
+        Background="Black" 
+        Foreground="White" 
+        HorizontalAlignment="Stretch" 
+        Text="Tasks" 
+        TextAlignment="Center" />
+
+      <ItemsControl
+        Grid.Row="1"     
+        DataContext="{StaticResource xmlData}"
+        ItemsSource="{Binding}"
+        ItemTemplate="{StaticResource taskItemTemplate}" />
+    </Grid>
+  </Window>
