@@ -218,7 +218,8 @@ namespace WPF.JoshSmith.ServiceProviders.UI
 
         void listView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (this.IsMouseOverScrollbar)
+            // Textboxes need mouse move for text highlight.
+            if (IsMouseOver<ScrollBar>() || IsMouseOver<TextBox>())
             {
                 this.canInitiateDrag = false;
                 return;
@@ -573,38 +574,37 @@ namespace WPF.JoshSmith.ServiceProviders.UI
 
         #endregion // IsMouseOver
 
-        #region IsMouseOverScrollbar
-
+        #region IsMouseOver<T>
         /// <summary>
-        /// Returns true if the mouse cursor is over a scrollbar in the ListView.
+        /// Returns a result if the mouse is over an element of type T
         /// </summary>
-        bool IsMouseOverScrollbar
+        /// <typeparam name="T">the type of element that the mouse may be over.</typeparam>
+        /// <returns><c>true</c> if over an element of type T</returns>
+        bool IsMouseOver<T>()
         {
-            get
-            {
-                Point ptMouse = MouseUtilities.GetMousePosition(this.listView);
-                HitTestResult res = VisualTreeHelper.HitTest(this.listView, ptMouse);
-                if (res == null)
-                    return false;
-
-                DependencyObject depObj = res.VisualHit;
-                while (depObj != null)
-                {
-                    if (depObj is ScrollBar)
-                        return true;
-
-                    // VisualTreeHelper works with objects of type Visual or Visual3D.
-                    // If the current object is not derived from Visual or Visual3D,
-                    // then use the LogicalTreeHelper to find the parent element.
-                    if (depObj is Visual || depObj is System.Windows.Media.Media3D.Visual3D)
-                        depObj = VisualTreeHelper.GetParent(depObj);
-                    else
-                        depObj = LogicalTreeHelper.GetParent(depObj);
-                }
-
+            Point ptMouse = MouseUtilities.GetMousePosition(this.listView);
+            HitTestResult res = VisualTreeHelper.HitTest(this.listView, ptMouse);
+            if (res == null)
                 return false;
+
+            DependencyObject depObj = res.VisualHit;
+            while (depObj != null)
+            {
+                if (depObj is T)
+                    return true;
+
+                // VisualTreeHelper works with objects of type Visual or Visual3D.
+                // If the current object is not derived from Visual or Visual3D,
+                // then use the LogicalTreeHelper to find the parent element.
+                if (depObj is Visual || depObj is System.Windows.Media.Media3D.Visual3D)
+                    depObj = VisualTreeHelper.GetParent(depObj);
+                else
+                    depObj = LogicalTreeHelper.GetParent(depObj);
             }
+
+            return false;
         }
+
 
         #endregion // IsMouseOverScrollbar
 
